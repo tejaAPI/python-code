@@ -1,4 +1,4 @@
-
+#Going to add comment lines for the code
 def makeTrainingSet(filename):
     print("Reading in training data...")
     f=open(filename,'r')
