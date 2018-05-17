@@ -1,13 +1,17 @@
-#Going to add comment lines for the code
+#simple rule based classifier
+#predicting the employee class i.e., wether a person is getting >50k or <50k bucks annually
+#reading the employee data fron the files 
 def makeTrainingSet(filename):
     print("Reading in training data...")
-    f=open(filename,'r')
-    trainingset=[]
+    f=open(filename,'r')#Reading the employee data from the file
+    #creating a list of dictionaries to store the data of each employee
+	trainingset=[] 
     for l in f:
     
         l=l.strip()
         line_list=l.split(',')
-        record={}
+        #creating a dictionary for evrey employee record
+		record={}
         record['age']=float(line_list[0])
         record['workclass']=line_list[1]
         record['educationnum']=float(line_list[4])
@@ -24,9 +28,10 @@ def makeTrainingSet(filename):
     f.close()
     print("Done reading training data...")
     return trainingset
-    
+#creating a classifier by finding the averages for continous attributes and ratios for non-continuos attributes    
 def trainclassifier(c):
     print('Training classifier...')
+	#Taking two dictionaries one for >50k and one for <50k
     d1={}
     d2={}
     avg1=0
@@ -82,7 +87,8 @@ def trainclassifier(c):
             l10.append(x['relationship'])
             l11.append(x['race'])
             l12.append(x['sex'])
-
+	#finding the averages for continuos attributes
+	#Appending the each attribute average into a dictionary
     avg1=age1//count1
     avg2=age2//count2
     d1['age']=avg1
@@ -118,7 +124,7 @@ def trainclassifier(c):
     d1['class']='<=50K'
     d2['class']='>50K'
     count1=0
-   
+	#finding the ratios for non-continous attributes and appending into the dictionary
     for index in range(0,len(l1)):
             if l1[index] not in list(d1['workclass'].keys()):
                 count1+=l1.count(l1[index]) 
@@ -174,7 +180,7 @@ def trainclassifier(c):
               
     print("Done training classifier...")
     return (d1,d2)
-    
+#creating the test set to classify the employess     
 def makeTestSet(filename):
     print("Reading in test data...")
 
@@ -185,12 +191,13 @@ def makeTestSet(filename):
     print("Done reading test data...")
 
     return testset
-
+#classifying the employee by comparing the employee data and classifier data
 def classifyTestRecords(testset,d1,d2):
     print("Classifying the records...")
     for record in testset:
         v1=0#votes for <=50k
         v2=0#votes for >50k
+		#classifying the data on continuos attributes
         
         """
         if (record['age']<=d1['age']):
@@ -214,6 +221,7 @@ def classifyTestRecords(testset,d1,d2):
         else:
             v2+=1
         """
+		#classifying the data on no continuos attributes
         if d1['relationship'][record['relationship']]>=d2['relationship'][record['relationship']]:
             v1+=1
         else:
@@ -249,7 +257,7 @@ def classifyTestRecords(testset,d1,d2):
     print("Done classifying.")   
     return testset
 
-
+#reporting the accuracy i.e., how many classified records are correct
 def reportAccuracy(testset):
     c=0
     for record in testset:
@@ -259,7 +267,7 @@ def reportAccuracy(testset):
     print("Total: ",len(testset))
     print("Accuracy (as a percentage): ",(c/len(testset))*100,"%")
     print("Program Finished")
-
+#calling all the above functoins
 def main():
     c=makeTrainingSet("trainingdata.txt")
     x,y=trainclassifier(c)
