@@ -1,6 +1,6 @@
 import math
 import matplotlib.pyplot as plt
-
+#plotting the graph by taking two lists as a parameters
 def graph(x1,y1):
 	plt.plot(x1,y1)
 	plt.show()
@@ -9,14 +9,15 @@ def bmi(mesur):
 	for i in mesur:
 		i['BMI']=(i['Weight']*703)/i['Height']**2
 	
-	
+#finding the BMI by taking some physical attributes and applying the formula	
 def combination_of_physical_attributes(mesur):
 	for i in mesur:
 		i["combination_of_physical_attributes"]=1.34*i["Chest_diameter"]+1.54*i["Chest_depth"]+1.20*i["Bitrochanteric"]+1.11*i["Wrist_minimum_girth"]+1.15*i["Ankle_minimum_girth"]+0.177*i["Height"]-110
 		
 def square(num):
 	return num*num
-		
+
+#finding the correlation between two attributes		
 def corelation(mesur,string1,string2):
 	x=[]
 	y=[]
@@ -30,17 +31,18 @@ def corelation(mesur,string1,string2):
 		xy.append(x[i]*y[i])
 		xsquare.append(square(x[i]))
 		ysquare.append(square(y[i]))
-	sumx=sum(x)
-	sumy=sum(y)
-	sumxy=sum(xy)
-	sumxsquared=sum(xsquare)
-	sumysquared=sum(ysquare)
+	sumx=sum(x)#finding the sum for X attribute
+	sumy=sum(y)#finding the sum for Y attribute
+	sumxy=sum(xy)#finding the sum for XY
+	sumxsquared=sum(xsquare)#finding the sum of X^2 
+	sumysquared=sum(ysquare)#finding the sum of Y^2
 	n=len(x)
-	slope=((n*sumxy)-(sumx*sumy))/(n*sumxsquared-sumx*2)
-	intercept=(sumy-(slope*sumx))/n
+	slope=((n*sumxy)-(sumx*sumy))/(n*sumxsquared-sumx*2)#slope formula
+	intercept=(sumy-(slope*sumx))/n#intercept formula
+	#finding the correlation coefficient
 	correlation_coefficient=(n*sumxy-(sumx*sumy))/math.sqrt((n*sumxsquared-sumx**2)*(n*sumysquared-sumy**2))
 	return(slope,intercept,correlation_coefficient,x,y)
-
+#finding a regression line by passing one attribute,slope and intercept as a parameter
 def reg_line(slope,intercept,x):
 	y=[]
 	print(slope,intercept)
@@ -48,15 +50,11 @@ def reg_line(slope,intercept,x):
 		a=intercept+slope*i
 		y.append(a)
 	return(y)
-
-		
-		
-		
-
-
+#reading the body measurements from a file
 f=open("body.txt",'r')
 record={}
-measurements=[]
+#storing the each person record in a dictionary
+measurements=[]	
 for l in f:
 	l=l.strip()
 	l=l.split()
