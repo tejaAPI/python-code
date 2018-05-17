@@ -1,4 +1,4 @@
-#going to add coments
+#Analysing the states data 
 from prettytable import PrettyTable
 import pylab
 import math
